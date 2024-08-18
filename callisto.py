@@ -18,7 +18,7 @@ channel_id = os.getenv('CHANNEL_ID')
 naver_api_url = f'https://api.chzzk.naver.com/service/v3/channels/{channel_id}/live-detail'
 NID_AUT = os.getenv('NID_AUT')
 NID_SES = os.getenv('NID_SES')
-STREAM = os.getenv('STREAM')
+STREAM = os.getenv('QUALITY')
 USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 
 headers = {  
@@ -42,7 +42,7 @@ def run_streamlink(channel_id):
         channel = response.json().get('content', {}).get('channel').get('channelName')
         current_time = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
         suffix = f"{current_time}_{channel}_{cleaned_live_title}"
-        subprocess.call(['streamlink', '--ffmpeg-copyts', f'https://chzzk.naver.com/live/{channel_id}', '{STREAM}', '--http-cookie', f'NID_AUT={NID_AUT}', '--http-cookie', f'NID_SES={NID_SES}', '--output', f'/home/callisto/CHZZK-VOD/{suffix}.mp4'])
+        subprocess.call(['streamlink', '--ffmpeg-copyts', f'https://chzzk.naver.com/live/{channel_id}', '{QUALITY}', '--http-cookie', f'NID_AUT={NID_AUT}', '--http-cookie', f'NID_SES={NID_SES}', '--output', f'/home/callisto/CHZZK-VOD/{suffix}.mp4'])
     except Exception as e:
         logger.error(f"Streamlink 실행 중 오류 발생: {e}")
 
